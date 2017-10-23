@@ -1,4 +1,4 @@
-import { ADD_ITEM } from './constants';
+import { ADD_ITEM, DELETE_ITEM } from './constants';
 
 let nextId = 3;
 
@@ -21,6 +21,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         items: [...state.items, newItem],
       };
+    case DELETE_ITEM:
+      return Object.assign({}, state, {
+        items: state.items.filter((item) => {
+          return item.id !== action.id
+        })
+      })
+
     default:
       return state;
   }
