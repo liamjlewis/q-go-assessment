@@ -33,5 +33,11 @@ describe('ItemsList', () => {
     const renderedItem = shallow(<ItemsList {...defaultProps} items={items} />);
     expect(renderedItem.find('li .btn-delete').length).not.toBeLessThan(1);
   });
-  
+
+  it('should render the completed button', () => {
+    const items = [{ id: 1, content: 'Test 1' }];
+    const renderedItem = shallow(<ItemsList {...defaultProps} items={items} />);
+    expect(renderedItem.find('li .btn-completed').length).not.toBeLessThan(1);
+  });
+
 });
