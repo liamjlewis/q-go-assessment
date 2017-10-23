@@ -1,11 +1,12 @@
 import { ADD_ITEM, DELETE_ITEM, TOGGLE_ITEM, FILTER } from './constants';
 
-let nextId = 3;
+let nextId = 4;
 
 export const initialState = {
   items: [
     { id: 1, content: 'Make sure items are completeable', completed: true },
     { id: 2, content: 'Add filters (Use HOC)', completed: true },
+    { id: 3, content: 'Add end-to-end testing', completed: false },
   ],
   filter: 'ALL',
 };

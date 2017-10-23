@@ -20,14 +20,14 @@ export const ItemsList = ({ items, onDelete, onToggle, onFilterChange }) => {
             {item.content}
             &nbsp;
             <input
-              className={'itemList-button btn-delete'}
+              className={'itemList-button btn-completed'}
               type="button"
               value={item.completed ? 'Unmark' : 'Mark as done'}
               onClick={() => onToggle(item.id)}
             />
             &nbsp;
             <input
-              className={'itemList-button btn-completed'}
+              className={'itemList-button btn-delete'}
               type="button"
               value={'Delete'}
               onClick={() => onDelete(item.id)}
