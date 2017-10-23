@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteItem, toggleItem } from '../../logic/actions';
+import { deleteItem, toggleItem, filterChange } from '../../logic/actions';
 import './styles.css';
 
-export const ItemsList = ({ items, onDelete, onToggle }) => {
+export const ItemsList = ({ items, onDelete, onToggle, onFilterChange }) => {
   return (
     <div>
+      <span>Show: </span>
+      <select onChange={(e) => onFilterChange(e.target.value)} className={'select-filter'}>
+        <option value="ALL">All</option>
+        <option value="COMPLETED">Completed tasks</option>
+        <option value="ACTIVE">Active tasks</option>
+      </select>
       <ul className={'itemsList-ul'}>
         {items.length < 1 && <p id={'items-missing'}>Add some tasks above.</p>}
         {items.map(item => 
@@ -36,15 +42,30 @@ ItemsList.propTypes = {
   items: PropTypes.array.isRequired,
   onDelete: PropTypes.func,
   onToggle: PropTypes.func,
+  onFilterChange: PropTypes.func,
 };
 
+const getVisibleItems = (items, filter) => {
+  switch (filter) {
+    case 'ALL':
+      return items
+    case 'COMPLETED':
+      return items.filter(t => t.completed)
+    case 'ACTIVE':
+      return items.filter(t => !t.completed)
+    default:
+      return items
+  }
+}
+
 const mapStateToProps = state => {
-  return { items: state.todos.items };
+  return { items: getVisibleItems(state.todos.items, state.todos.filter) };
 };
 
 const mapDispatchToProps = dispatch => ({
   onDelete: theItem => dispatch(deleteItem(theItem)),
   onToggle: theItem => dispatch(toggleItem(theItem)),
+  onFilterChange: theItem => dispatch(filterChange(theItem)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemsList);

@@ -1,12 +1,13 @@
-import { ADD_ITEM, DELETE_ITEM, TOGGLE_ITEM } from './constants';
+import { ADD_ITEM, DELETE_ITEM, TOGGLE_ITEM, FILTER } from './constants';
 
 let nextId = 3;
 
 export const initialState = {
   items: [
-    { id: 1, content: 'Make sure items are completeable', completed: false },
-    { id: 2, content: 'Add filters (Use HOC)', completed: false },
+    { id: 1, content: 'Make sure items are completeable', completed: true },
+    { id: 2, content: 'Add filters (Use HOC)', completed: true },
   ],
+  filter: 'ALL',
 };
 
 const reducer = (state = initialState, action) => {
@@ -30,11 +31,16 @@ const reducer = (state = initialState, action) => {
       })
 
     case TOGGLE_ITEM:
-      return {items: state.items.map(item =>
-        (item.id === action.id) 
-          ? {...item, completed: !item.completed}
-          : item
-      )}
+      return Object.assign({}, state, {
+        items: state.items.map(item =>
+          (item.id === action.id) 
+            ? {...item, completed: !item.completed}
+            : item
+          )
+      })
+
+    case FILTER:
+      return Object.assign({}, state, {filter: action.value})
 
     default:
       return state;

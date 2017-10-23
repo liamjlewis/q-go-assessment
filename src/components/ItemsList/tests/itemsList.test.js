@@ -40,4 +40,10 @@ describe('ItemsList', () => {
     expect(renderedItem.find('li .btn-completed').length).not.toBeLessThan(1);
   });
 
+  it('should render the filter drop down', () => {
+    const items = [{ id: 1, content: 'Test 1' }];
+    const renderedItem = shallow(<ItemsList {...defaultProps} items={items} />);
+    expect(renderedItem.find('.select-filter').length).not.toBeLessThan(1);
+  });
+
 });
