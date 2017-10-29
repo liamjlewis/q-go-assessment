@@ -1,14 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteItem, toggleItem, filterChange } from '../../logic/actions';
 import './styles.css';
 
-export const ItemsList = ({ items, onDelete, onToggle, onFilterChange }) => {
+export const ItemsList = ({ items, onDelete, onToggle, onFilterChange, filterVal }) => {
   return (
     <div>
       <span>Show: </span>
-      <select onChange={(e) => onFilterChange(e.target.value)} className={'select-filter'}>
+      <select onChange={(e) => onFilterChange(e.target.value)} className={'select-filter'} value={filterVal}>
         <option value="ALL">All</option>
         <option value="COMPLETED">Completed tasks</option>
         <option value="ACTIVE">Active tasks</option>
@@ -34,6 +35,7 @@ export const ItemsList = ({ items, onDelete, onToggle, onFilterChange }) => {
             />
           </li>)}
       </ul>
+      <Link to="/deleted">See deleted</Link>
     </div>
   );
 };
@@ -43,6 +45,7 @@ ItemsList.propTypes = {
   onDelete: PropTypes.func,
   onToggle: PropTypes.func,
   onFilterChange: PropTypes.func,
+  filterVal: PropTypes.string,
 };
 
 const getVisibleItems = (items, filter) => {
@@ -59,7 +62,7 @@ const getVisibleItems = (items, filter) => {
 }
 
 const mapStateToProps = state => {
-  return { items: getVisibleItems(state.todos.items, state.todos.filter) };
+  return { items: getVisibleItems(state.todos.items, state.filter.setting), filterVal: state.filter.setting, };
 };
 
 const mapDispatchToProps = dispatch => ({

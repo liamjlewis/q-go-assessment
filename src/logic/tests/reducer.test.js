@@ -1,4 +1,5 @@
-import reducer, { initialState } from '../reducer';
+import reducerTodos, { initialState } from '../reducers/reducerTodos';
+import reducerFilter, { initialState } from '../reducers/reducerFilter';
 import { addItem, deleteItem, toggleItem, filterChange } from '../actions';
 
 describe('reducer', () => {

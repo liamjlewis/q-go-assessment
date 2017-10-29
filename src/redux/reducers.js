@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import reducer from '../logic/reducer';
+import reducerItems from '../logic/reducers/reducerTodos';
+import reducerFilter from '../logic/reducers/reducerFilter';
 
 export default function createReducer() {
   return combineReducers({
-    todos: reducer,
+    todos: reducerItems,
+    filter: reducerFilter,
   });
 }
