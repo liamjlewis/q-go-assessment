@@ -1,35 +1,31 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { ItemsList } from '../index';
+import { Deleted } from '../index';
 
-const deleteMock = jest.fn();
-const toggleMock = jest.fn();
-const filterMock = jest.fn();
+const unDeleteMock = jest.fn();
 
 const defaultProps = {
-  items: [{ id: 1, content: 'Test 1', completed: true }, 
-          { id: 1, content: 'Test 1', completed: false }],
-  onDelete: deleteMock,
-  onToggle: toggleMock,
-  onFilterChange: filterMock,
+  deletedItems: [
+    { id: 1, content: 'Test 1', completed: false, index: 1 }, 
+    { id: 1, content: 'Test 1', completed: false, index: 1 },],
+  onUnDelete: unDeleteMock,
 };
-const defaultPropsBasic = {
-  items: [{ id: 1, content: 'Test 1', completed: false }],
-  onDelete: deleteMock,
-  onToggle: toggleMock,
-  onFilterChange: filterMock,
+const defaultPropsSingle = {
+  deletedItems: [
+    { id: 1, content: 'Test 1', completed: false, index: 1 }, ],
+  onUnDelete: unDeleteMock,
 };
 
-const renderedItemBasic = shallow(<ItemsList {...defaultPropsBasic} />);
-const renderedItem = shallow(<ItemsList {...defaultProps} />);
+const renderedItem = shallow(<Deleted {...defaultProps} />);
+const renderedItemSingle = shallow(<Deleted {...defaultPropsSingle} />);
 
-describe('ItemsList', () => {
+describe('Deleted', () => {
   it('renders without crashing', () => {
-    shallow(<ItemsList {...defaultProps} />);
+    shallow(<Deleted {...defaultProps} />);
   });
 
   it('should display warning message if no items', () => {
-    const renderedItemEmpty = shallow(<ItemsList items={[]} />);
+    const renderedItemEmpty = shallow(<Deleted deletedItems={[]} />);
     expect(renderedItemEmpty.find('#items-missing')).toHaveLength(1);
   });
 
@@ -41,34 +37,14 @@ describe('ItemsList', () => {
     expect(renderedItem.find('li')).toHaveLength(2);
   });
 
-  it('should render the delete button', () => {
-    expect(renderedItem.find('li .btn-delete').length).not.toBeLessThan(1);
+  it('should render the restore button', () => {
+    expect(renderedItem.find('li .btn-restore').length).not.toBeLessThan(1);
   });
 
-  it('should render the completed button', () => {
-    expect(renderedItem.find('li .btn-completed').length).not.toBeLessThan(1);
-  });
-
-  it('should render the filter drop down', () => {
-    expect(renderedItem.find('.select-filter').length).not.toBeLessThan(1);
-  });
-
-  it('should let me delete a list item', () => {
-    expect(deleteMock.mock.calls.length).toEqual(0);
-    renderedItemBasic.find('li .btn-delete').simulate('click');
-    expect(deleteMock.mock.calls.length).toEqual(1);
-  });
-
-  it('should let me toggle complete', () => {
-    expect(toggleMock.mock.calls.length).toEqual(0);
-    renderedItemBasic.find('li .btn-completed').simulate('click');
-    expect(toggleMock.mock.calls.length).toEqual(1);
-  });
-
-  it('should let me change filter', () => {
-    expect(filterMock.mock.calls.length).toEqual(0);
-    renderedItemBasic.find('.select-filter').simulate('change', { target: { value: 'COMPLETED' } })
-    expect(filterMock.mock.calls.length).toEqual(1);
+  it('should let me restore a list item', () => {
+    expect(unDeleteMock.mock.calls.length).toEqual(0);
+    renderedItemSingle.find('li .btn-restore').simulate('click');
+    expect(unDeleteMock.mock.calls.length).toEqual(1);
   });
 
 });

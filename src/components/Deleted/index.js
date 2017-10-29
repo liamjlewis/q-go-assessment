@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { unDeleteItem } from '../../logic/actions';
 import './styles.css';
 
-export const ItemsList = ({ deletedItems, onUnDelete }) => {
+export const Deleted = ({ deletedItems, onUnDelete }) => {
   return (
     <div>
       <h2>Deleted Items</h2>
@@ -17,7 +17,7 @@ export const ItemsList = ({ deletedItems, onUnDelete }) => {
             {item.content}
             &nbsp;
             <input
-              className={'itemList-button btn-delete'}
+              className={'itemList-button btn-restore'}
               type="button"
               value={'restore'}
               onClick={() => onUnDelete(item.id)}
@@ -28,7 +28,7 @@ export const ItemsList = ({ deletedItems, onUnDelete }) => {
   );
 };
 
-ItemsList.propTypes = {
+Deleted.propTypes = {
   deletedItems: PropTypes.array.isRequired,
   onUnDelete: PropTypes.func,
 };
@@ -41,4 +41,4 @@ const mapDispatchToProps = dispatch => ({
   onUnDelete: theItem => dispatch(unDeleteItem(theItem)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemsList);
+export default connect(mapStateToProps, mapDispatchToProps)(Deleted);
